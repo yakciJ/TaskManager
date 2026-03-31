@@ -51,7 +51,7 @@ public class TasksController : ControllerBase
             Title = dto.Title,
             Description = dto.Description,
             Priority = dto.Priority,
-            Deadline = dto.Deadline,
+            Deadline = dto.Deadline.HasValue ? DateTime.SpecifyKind(dto.Deadline.Value.Date, DateTimeKind.Utc) : null,
             IsCompleted = false,
             CreatedAt = DateTime.UtcNow
         };
@@ -72,7 +72,7 @@ public class TasksController : ControllerBase
         task.Title = dto.Title;
         task.Description = dto.Description;
         task.Priority = dto.Priority;
-        task.Deadline = dto.Deadline;
+        task.Deadline = dto.Deadline.HasValue ? DateTime.SpecifyKind(dto.Deadline.Value.Date, DateTimeKind.Utc) : null;
         task.IsCompleted = dto.IsCompleted;
 
         await _context.SaveChangesAsync();
